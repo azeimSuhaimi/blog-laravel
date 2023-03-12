@@ -1,0 +1,1 @@
+<p>ckick here to varify user <a href="{{ $link }}">varify</a></p>

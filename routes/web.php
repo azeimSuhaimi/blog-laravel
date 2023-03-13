@@ -7,6 +7,7 @@ use App\Http\Controllers\userController;
 use App\Http\Controllers\PostsController;
 use App\Http\Controllers\adminController;
 use App\Http\Controllers\settingController;
+use App\Http\Controllers\productsController;
 
 use Illuminate\Support\Facades\Route;
 
@@ -40,6 +41,10 @@ Route::controller(indexController::class)->group(function () {
     Route::get('/about_us', 'about_us')->name('about_us')->middleware('guest');
     Route::get('/contact_us', 'contact_us')->name('contact_us')->middleware('guest');
     Route::post('/contact_us', 'contact_us_post')->name('contact_us.post')->middleware('guest');
+
+    Route::get('/list_product', 'list_product')->name('list_product')->middleware('guest');
+
+    Route::get('/cart_product', 'cart_product')->name('cart_product')->middleware('guest');
 
     
 });
@@ -116,6 +121,22 @@ Route::controller(PostsController::class)->group(function () {
 Route::controller(settingController::class)->group(function () {
     Route::get('/setting', 'index')->name('setting.index')->middleware('auth');
     Route::post('/setting', 'edit')->name('setting.edit')->middleware('auth');
+
+
+    
+});
+
+Route::controller(productsController::class)->group(function () {
+    Route::get('/create_product', 'create')->name('products.create')->middleware('auth');
+    Route::post('/create_product', 'store')->name('products.store')->middleware('auth');
+
+    Route::get('/show_product', 'show')->name('products.show')->middleware('auth');
+
+    Route::get('/edit_product', 'edit')->name('products.edit')->middleware('auth');
+    Route::post('/edit_product', 'update')->name('products.update')->middleware('auth');
+
+    Route::get('/deactive_product', 'deactive')->name('products.deactive')->middleware('auth');
+    Route::get('/active_product', 'active')->name('products.active')->middleware('auth');
 
 
     

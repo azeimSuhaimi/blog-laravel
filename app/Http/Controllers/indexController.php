@@ -7,6 +7,7 @@ use App\Models\Posts;
 use App\Models\activity_log;
 use App\Models\subscribe;
 use App\Models\contact_messege;
+use App\Models\products;
 use Illuminate\Support\Facades\DB;
 
 class indexController extends Controller
@@ -117,6 +118,18 @@ class indexController extends Controller
 
             return back()->with('success', 'messege send success');
 
+    }
+
+    public function list_product()
+    {
+        $products = products::latest();
+
+        return view('indexs.list_product',['products'=>$products->paginate(1)->withQueryString()]);
+    }
+
+    public function cart_product()
+    {
+        return view('indexs.cart_product');
     }
 
 

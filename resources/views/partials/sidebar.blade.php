@@ -59,6 +59,24 @@
                     <span>messege subscriber</span></a>
             </li>
 
+                <!-- Divider -->
+                <hr class="sidebar-divider my-0">
+
+                <!-- Nav Item - Pages Collapse Menu -->
+                <li class="nav-item {{ (Request::is('create_product') || Request::is('show_product')) || (Request::is('edit_product') )? 'active':'' }}">
+                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#product"
+                        aria-expanded="true" aria-controls="product">
+                        <i class="fas fa-fw fa-pen"></i>
+                        <span>my product</span>
+                    </a>
+                    <div id="product" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                        <div class="bg-white py-2 collapse-inner rounded">
+                            <h6 class="collapse-header">Custom product:</h6>
+                            <a class="collapse-item {{ Request::is('create_product') ? 'active':'' }}" href="{{route('products.create')}}">create product</a>
+                            <a class="collapse-item {{ (Request::is('show_product') || Request::is('show_product')) || (Request::is('edit_product') ? 'active':'' }}" href="{{route('products.show')}}">show posts</a>
+                        </div>
+                    </div>
+                </li>
 
             
 

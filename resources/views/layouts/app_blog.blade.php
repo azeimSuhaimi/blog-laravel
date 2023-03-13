@@ -55,6 +55,10 @@ $setting =  DB::table('setting')->get()->first();
                                 <a href="{{route('list_post')}}" class="nav-link">Latest</a>
                             </li>
 
+                            <li class="nav-item {{  Request::is('list_product') ? 'active':'' }}">
+                                <a href="{{route('list_product')}}" class="nav-link">list product</a>
+                            </li>
+
                             <li class="nav-item {{  Request::is('contact_us') ? 'active':'' }}">
                                 <a href="{{route('contact_us')}}" class="nav-link">Contact Us</a>
                             </li>
@@ -110,6 +114,9 @@ $setting =  DB::table('setting')->get()->first();
 
                         <!-- buttons  -->
                         <div class="header-buttons">
+                            <a href="{{route('cart_product')}}" class=" icon-button">
+                                cart <p id="cart_icon"></p>
+                            </a>
                             <button class="search icon-button">
                                 <i class="icon-magnifier"></i>
                             </button>
@@ -120,6 +127,30 @@ $setting =  DB::table('setting')->get()->first();
                     </div>
                 </div>
             </nav>
+
+            <script>
+
+
+                // Function to update cart display
+                function updateCartDisplayIcon() {
+                const cartIcon = document.querySelector('#cart_icon');
+
+                
+                // Clear current cart display
+                cartIcon.innerHTML = '';
+                let i = 0
+                // Get cart items from local storage and display them
+                const cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+                cartItems.forEach(item => {
+                    i++;
+                });
+                
+                cartIcon.innerHTML = i;
+                }
+
+                // Load cart items on page load
+                updateCartDisplayIcon();
+            </script>
 
 
         </header>

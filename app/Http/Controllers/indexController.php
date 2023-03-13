@@ -127,6 +127,25 @@ class indexController extends Controller
         return view('indexs.list_product',['products'=>$products->paginate(1)->withQueryString()]);
     }
 
+    public function list_product_add(Request $request)
+    {
+        if ($request->has('id')) 
+        {
+            $id = $request->input('id');
+            $price = $request->input('price');
+            $name = $request->input('name');
+
+            //dd(session('cart' , ['id' => $id,'price' => $price, 'name' => $name,'quantity' => 1]));
+            $data = $request->session()->all();
+            dd($data);
+        }
+        
+
+        $products = products::latest();
+
+        return view('indexs.list_product',['products'=>$products->paginate(1)->withQueryString()]);
+    }
+
     public function cart_product()
     {
         return view('indexs.cart_product');

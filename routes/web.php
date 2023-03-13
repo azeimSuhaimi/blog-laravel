@@ -43,6 +43,7 @@ Route::controller(indexController::class)->group(function () {
     Route::post('/contact_us', 'contact_us_post')->name('contact_us.post')->middleware('guest');
 
     Route::get('/list_product', 'list_product')->name('list_product')->middleware('guest');
+    Route::post('/list_product', 'list_product_add')->name('list_product.add')->middleware('guest');
 
     Route::get('/cart_product', 'cart_product')->name('cart_product')->middleware('guest');
 

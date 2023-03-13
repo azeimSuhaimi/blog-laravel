@@ -23,7 +23,13 @@
                                 <li class="list-group-item">quantity left :{{$product->quantity}}</li>
                             </ul>
                             <div class="card-body">
-                                <a class="add-to-cart btn btn-primary" data-id="{{$product->id}}" data-name="{{$product->name}}" data-price="{{$product->price}}">add</a>
+                                <form action="{{route('list_product.add')}}" method="post">
+                                    @csrf
+                                    <input type="hidden" name="id" value="{{$product->id}}">
+                                    <input type="hidden" name="name" value="{{$product->name}}">
+                                    <input type="hidden" name="price" value="{{$product->price}}">
+                                    <button  class=" btn btn-primary" data-id="{{$product->id}}" data-name="{{$product->name}}" data-price="{{$product->price}}">add</button>
+                                </form>
                                 
                             </div>
                         </div>
@@ -39,55 +45,5 @@
         </div>
     </div>
 
-    <script>
-            // Get the add-to-cart buttons
-            const addToCartButtons = document.querySelectorAll('.add-to-cart');
 
-            // Add event listener to each button
-            addToCartButtons.forEach(button => {
-            button.addEventListener('click', addToCartClicked);
-            });
-
-            // Function to handle add-to-cart button click
-            function addToCartClicked(event) {
-            // Get the product details
-            const button = event.target;
-            const id = button.dataset.id;
-            const name = button.dataset.name;
-            const price = button.dataset.price;
-            
-            // Check if product already exists in cart
-            const cartItems = getCartItems();
-            const existingItem = cartItems.find(item => item.id === id);
-            if (existingItem) {
-                Swal.fire(
-                        'The product?',
-                        'you already add '+name,
-                        'question'
-                        )
-            } else {
-                cartItems.push({ id, name, price, quantity: 1 });
-                Swal.fire(
-                        'The product',
-                        'you success add product '+name,
-                        'success'
-                        )
-            }
-            
-            // Save cart items to local storage
-            saveCartItems(cartItems);
-            updateCartDisplayIcon();
-            
-            }
-
-            // Function to get cart items from local storage
-            function getCartItems() {
-            return JSON.parse(localStorage.getItem('cartItems')) || [];
-            }
-
-            // Function to save cart items to local storage
-            function saveCartItems(cartItems) {
-            localStorage.setItem('cartItems', JSON.stringify(cartItems));
-            }
-    </script>
 @endsection

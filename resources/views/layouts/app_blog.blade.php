@@ -128,29 +128,7 @@ $setting =  DB::table('setting')->get()->first();
                 </div>
             </nav>
 
-            <script>
 
-
-                // Function to update cart display
-                function updateCartDisplayIcon() {
-                const cartIcon = document.querySelector('#cart_icon');
-
-                
-                // Clear current cart display
-                cartIcon.innerHTML = '';
-                let i = 0
-                // Get cart items from local storage and display them
-                const cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
-                cartItems.forEach(item => {
-                    i++;
-                });
-                
-                cartIcon.innerHTML = i;
-                }
-
-                // Load cart items on page load
-                updateCartDisplayIcon();
-            </script>
 
 
         </header>

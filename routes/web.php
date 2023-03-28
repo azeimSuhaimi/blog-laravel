@@ -46,7 +46,11 @@ Route::controller(indexController::class)->group(function () {
     Route::post('/list_product', 'list_product_add')->name('list_product.add')->middleware('guest');
 
     Route::get('/cart_product', 'cart_product')->name('cart_product')->middleware('guest');
-
+    Route::get('/cart_product_add', 'cart_product_add')->name('cart_product.add')->middleware('guest');
+    Route::get('/cart_product_remove', 'cart_product_remove')->name('cart_product.remove')->middleware('guest');
+    Route::get('/checkout', 'checkout')->name('checkout')->middleware('guest');
+    Route::post('/checkout', 'checkout_post')->name('checkout.post')->middleware('guest');
+    Route::get('/payment_status', 'payment_status')->name('payment_status')->middleware('guest');
     
 });
 

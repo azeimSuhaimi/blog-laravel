@@ -115,7 +115,19 @@ $setting =  DB::table('setting')->get()->first();
                         <!-- buttons  -->
                         <div class="header-buttons">
                             <a href="{{route('cart_product')}}" class=" icon-button">
-                                cart <p id="cart_icon"></p>
+                                cart <p id="cart_icon">
+                                    @if (session()->has('cart'))
+                                        
+                                        @foreach (session('cart') as $data )
+                                            @if ($loop->last)
+                                                
+                                                {{$loop->count}}
+                                            @endif
+                                        @endforeach
+                                    @else
+                                        0
+                                    @endif            
+                                    </p>
                             </a>
                             <button class="search icon-button">
                                 <i class="icon-magnifier"></i>

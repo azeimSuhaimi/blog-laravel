@@ -8,6 +8,9 @@
        
         <div class="card-body">
 
+            
+            @if ($products[0] !== null )
+                
             <div class="row">
                 @foreach ( $products as $product )
                     
@@ -28,6 +31,7 @@
                                     <input type="hidden" name="id" value="{{$product->id}}">
                                     <input type="hidden" name="name" value="{{$product->name}}">
                                     <input type="hidden" name="price" value="{{$product->price}}">
+                                    <input type="hidden" name="quantity" value="{{$product->quantity}}">
                                     <button  class=" btn btn-primary" data-id="{{$product->id}}" data-name="{{$product->name}}" data-price="{{$product->price}}">add</button>
                                 </form>
                                 
@@ -36,6 +40,10 @@
                     </div>
                 @endforeach
             </div>
+
+            @else
+            <h3>not product now</h3>
+            @endif
 
             <div class="text-center d-flex justify-content-end">
                 {{ $products->links() }}

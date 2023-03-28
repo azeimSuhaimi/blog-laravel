@@ -5,11 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class products extends Model
+class payments extends Model
 {
     use HasFactory;
     public $timestamps = true;
-    protected $table = 'products';
+    protected $table = 'payments';
     public $incrementing = true;
-    protected $fillable = [ 'quantity'];
 }

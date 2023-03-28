@@ -73,7 +73,7 @@
                         <div class="bg-white py-2 collapse-inner rounded">
                             <h6 class="collapse-header">Custom product:</h6>
                             <a class="collapse-item {{ Request::is('create_product') ? 'active':'' }}" href="{{route('products.create')}}">create product</a>
-                            <a class="collapse-item {{ (Request::is('show_product') || Request::is('show_product')) || (Request::is('edit_product') ? 'active':'' }}" href="{{route('products.show')}}">show posts</a>
+                            <a class="collapse-item {{ (Request::is('show_product') || Request::is('show_product') ) || Request::is('edit_product') ? 'active':''}}" href="{{route('products.show')}}">show posts</a>
                         </div>
                     </div>
                 </li>

@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Mail;
+use Gloudemans\Shoppingcart\Facades\Cart;
 
 use App\Mail\order_status;
 
@@ -154,24 +155,20 @@ class indexController extends Controller
                 return redirect()->back()->with('error', 'Item not have stock .');
             }
 
-            if (!session()->has('cart')) {
-                session()->put('cart', []);
-            }
 
-            foreach (session('cart') as $data )
+
+            foreach (Cart::content() as $row )
             {
                 
-                if($data['id'] == $id)
+                if($row->id == $id)
                 {
                     return redirect()->back()->with('error', 'Item added already in cart.');
                 }
 
             }
             
-            $cart = session()->get('cart', []);
-            $data = ['id'=>$id,'name' => $name, 'price' => $price,'quantity'=> 1];
-            array_push($cart,$data);
-            session()->put('cart', $cart);
+            
+            Cart::add($id, $name, 1, $price);
             return redirect()->back()->with('success', 'Item added to cart.');
 
            // dd(session('cart'));
@@ -204,21 +201,13 @@ class indexController extends Controller
 
                     
     
-                    $cart = session()->get('cart', []);
-    
-                    foreach ($cart as $key => $product) {
-                        if ($product['id'] == $id) {
-                            // Update the quantity of the product in the cart
-                            $cart[$key]['quantity'] = $quantity;
-                            break;
-                        }
-    
-                    }
-                    session()->put('cart', $cart);
+                    $rowId = $request->input('rowId');
+
+                    Cart::update($rowId, $quantity); // Will update the quantity
     
                     return redirect()->back()->with('success', 'finish.');
                 }
-                return redirect()->back()->with('error', 'quantity cannot in stock not macth.');
+                return redirect()->back()->with('error', 'quantity cannot in stock not match.');
             }
             return redirect()->back()->with('error', 'quantity cannot negetif added have a problem.');
         }
@@ -231,17 +220,9 @@ class indexController extends Controller
         if($request->has('id'))
         {
             $id = $request->input('id');
-            $cart = session()->get('cart', []);
+            $rowId = $id;
 
-            foreach ($cart as $key => $product) {
-                if ($product['id'] == $id) {
-                    // Remove the product from the cart
-                    unset($cart[$key]);
-                    break;
-                }
-            }
-
-            session()->put('cart', $cart);
+            Cart::remove($rowId);
 
             return redirect()->back()->with('success', 'Product removed from cart.');
         }
@@ -264,7 +245,7 @@ class indexController extends Controller
 
             ]);
 
-            if(!session()->has('cart'))
+            if(!Cart::content())
             {
                 return redirect()->back()->with('error', 'no Item was add.');
             }
@@ -280,17 +261,17 @@ class indexController extends Controller
             $order->reference = $reference;
             $order->save();
 
-            foreach(session('cart') as $data)
+            foreach(Cart::content() as $data)
             {
                 $order_items = new order_items;
                 $order_items->reference = $reference;
-                $order_items->product_id = $data['id'];
-                $order_items->product_name = $data['name'];
-                $order_items->price = $data['price'];
-                $order_items->quantity = $data['quantity'];
+                $order_items->product_id = $data->id;
+                $order_items->product_name = $data->name;
+                $order_items->price = $data->price;
+                $order_items->quantity = $data->qty;
                 $order_items->save();
 
-                $total += $data['price'] * $data['quantity'];
+                $total += $data->price * $data->qty;
             }
 
 
@@ -303,7 +284,7 @@ class indexController extends Controller
                 'billDescription'=>'multiple product add to cart to pay',
                 'billPriceSetting'=>0,
                 'billPayorInfo'=>0,
-                'billAmount'=>$total * 100,
+                'billAmount'=>Cart::total() * 100,
                 'billReturnUrl'=>route('payment_status'), //tukar link disini
                 'billCallbackUrl'=>'http://bizapp.my/paystatus',
                 'billExternalReferenceNo' => $reference , // reference number sendiri bukan toyyyipay punya macam number resit
@@ -345,17 +326,17 @@ class indexController extends Controller
 
         if($request->input('status_id') == 1)
         {
-            if(session()->has('cart'))
+            if(Cart::content())
             {
 
-                foreach(session('cart') as $data)
+                foreach(Cart::content() as $data)
                 {
-                    $total += $data['price'] * $data['quantity'];
+                 
 
-                    $product = products::firstWhere('id', $data['id']);
+                    $product = products::firstWhere('id', $data->id);
 
                         
-                        products::firstWhere('id', $data['id'])->update(['quantity' => $product->quantity - $data['quantity'] ]);
+                        products::firstWhere('id', $data->id)->update(['quantity' => $product->quantity - $data->qty ]);
                     
                     
                 }
@@ -364,13 +345,13 @@ class indexController extends Controller
                 Mail::to($orders->email)->send(new order_status($order_id,$billcode, $request->input('status_id')));
 
                 $payments = new payments;
-                $payments->amount = $total;
+                $payments->amount = Cart::total();
                 $payments->billcode = $billcode;
                 $payments->payment_date = time();
                 $payments->reference = $order_id;
                 $payments->save();
 
-                $request->session()->forget('cart');
+                Cart::destroy();
             }
 
         }

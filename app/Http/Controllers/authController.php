@@ -89,7 +89,7 @@ class authController extends Controller
         DB::table('password_reset_tokens')->insert([
             'email' => $validated['email'],
             'token' => $token,
-            'token_expired' => time() + 60 *2,
+            'token_expired' => time() + 60 *2, //2 minute will be delete back
         ]);
 
         Mail::to($validated['email'])->send(new forgot_password($validated['email'],$token_data,$domain));

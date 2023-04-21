@@ -78,6 +78,13 @@
                     </div>
                 </li>
 
+
+                <li class="nav-item {{ Request::is('order_list') || Request::is('order_status') ? 'active':'' }}">
+                    <a class="nav-link" href="{{route('orders.index')}}">
+                        <i class="fas fa-fw fa-tachometer-alt"></i>
+                        <span>order list</span></a>
+                </li>
+
             
 
             @endcan

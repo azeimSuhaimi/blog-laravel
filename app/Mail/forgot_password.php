@@ -37,7 +37,7 @@ class forgot_password extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            from: new Address('admin@gmail.com', 'opad'),
+            from: new Address('admin@gmail.com', 'opad'), //can change using env variable
             subject: 'Forgot Password',
         );
     }

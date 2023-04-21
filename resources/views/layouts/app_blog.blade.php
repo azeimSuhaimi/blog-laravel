@@ -115,10 +115,10 @@ $setting =  DB::table('setting')->get()->first();
                         <!-- buttons  -->
                         <div class="header-buttons">
                             <a href="{{route('cart_product')}}" class=" icon-button">
-                                cart <p id="cart_icon">
-                                    @if (session()->has('cart'))
+                                <i class="icon-list"></i> <p id="cart_icon">
+                                    @if (Cart::content())
                                         
-                                        @foreach (session('cart') as $data )
+                                        @foreach (Cart::content() as $data)
                                             @if ($loop->last)
                                                 
                                                 {{$loop->count}}
@@ -440,7 +440,7 @@ $setting =  DB::table('setting')->get()->first();
                                                             {{$list->title}}
                                                         </a>
                                                     </h5>
-                                                    <p class="excerpt mb-0">
+                                                    <p class="excerpt mb-0 ">
                                                         
                                                     </p>
                                                     <div class="post-bottom clearfix d-flex align-items-center">

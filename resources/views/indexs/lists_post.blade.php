@@ -9,10 +9,10 @@
 
         <div class="section-header">
             @if (request('search'))
-                <h3 class="section-title"> keyword search {{request('search')}} Post</h3>
+                <h3 class="section-title"> keyword search <span class="fw-bold text-uppercase">{{request('search')}}</span> Post</h3>
             @endif
             @if (request('category'))
-                <h3 class="section-title"> keyword category {{request('category')}} Post</h3>
+                <h3 class="section-title"> keyword category <span class="fw-bold text-uppercase ">{{request('category')}}</span> Post</h3>
             @endif
             @if (request('category') == '' && request('search') == '')
             <h3 class="section-title">Latest Post</h3>

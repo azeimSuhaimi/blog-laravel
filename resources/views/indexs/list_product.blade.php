@@ -7,7 +7,56 @@
     <div class="card shadow mb-4">
        
         <div class="card-body">
+           
+            <?php 
 
+                ?>
+            <table>
+                   <thead>
+                       <tr>
+                           <th>Product</th>
+                           <th>Qty</th>
+                           <th>Price</th>
+                           <th>Subtotal</th>
+                       </tr>
+                   </thead>
+            
+                   <tbody>
+            
+                       <?php foreach(Cart::content() as $row) :?>
+            
+                           <tr>
+                               <td>
+                                   <p><strong><?php echo $row->name; ?></strong></p>
+                                   <p><?php echo ($row->options->has('size') ? $row->options->size : ''); ?></p>
+                               </td>
+                               <td><input type="text" value="<?php echo $row->qty; ?>"></td>
+                               <td>$<?php echo $row->price; ?></td>
+                               <td>$<?php echo $row->total; ?></td>
+                           </tr>
+            
+                       <?php endforeach;?>
+            
+                   </tbody>
+                   
+                   <tfoot>
+                       <tr>
+                           <td colspan="2">&nbsp;</td>
+                           <td>Subtotal</td>
+                           <td><?php echo Cart::subtotal(); ?></td>
+                       </tr>
+                       <tr>
+                           <td colspan="2">&nbsp;</td>
+                           <td>Tax</td>
+                           <td><?php echo Cart::tax(); ?></td>
+                       </tr>
+                       <tr>
+                           <td colspan="2">&nbsp;</td>
+                           <td>Total</td>
+                           <td><?php echo Cart::total(); ?></td>
+                       </tr>
+                   </tfoot>
+            </table>
             
             @if ($products[0] !== null )
                 
@@ -19,10 +68,10 @@
                             <img src="assets/images_product/{{$product->image}}" class="card-img-top" alt="...">
                             <div class="card-body">
                                 <h5 class="card-title">{{$product->name}}</h5>
-                                <p class="card-text">{{$product->description}}</p>
+                                
                             </div>
                             <ul class="list-group list-group-flush">
-                                <li class="list-group-item">rm {{$product->price}}</li>
+                                <li class="list-group-item">RM {{$product->price}}</li>
                                 <li class="list-group-item">quantity left :{{$product->quantity}}</li>
                             </ul>
                             <div class="card-body">

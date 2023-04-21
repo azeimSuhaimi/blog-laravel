@@ -22,25 +22,23 @@
                     $total = 0;
                 ?>
 
-                @if (session()->has('cart'))
+                @if (Cart::content())
                                     
-                @foreach (session('cart') as $data )
-                    <?php 
-                        $total += $data['price'] * $data['quantity'];
-                    ?>
+                @foreach (Cart::content() as $data )
+
                     <tr>
-                        <td>1</td>
+                        <td>{{$loop->iteration}}</td>
                         <td><img src="assets/images_product/empty.jpg" class="" style="width:100px;height:100px" alt="..."></td>
-                        <td>{{$data['name']}}</td>
-                        <td>{{$data['price']}}</td>
-                        <td>{{$data['quantity']}}</td>
-                        <td>{{$data['price'] * $data['quantity']}}</td>
+                        <td>{{$data->name}}</td>
+                        <td>{{$data->price}}</td>
+                        <td>{{$data->qty}}</td>
+                        <td>{{$data->total}}</td>
                     </tr>
                 @endforeach
 
                     <tr>
                         <td colspan="3">total</td>
-                        <td colspan="3"><?= $total?></td>
+                        <td colspan="3"><?= Cart::total()?></td>
                     </tr>
 
                 @else

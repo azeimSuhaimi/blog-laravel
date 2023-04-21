@@ -8,7 +8,7 @@ use App\Http\Controllers\PostsController;
 use App\Http\Controllers\adminController;
 use App\Http\Controllers\settingController;
 use App\Http\Controllers\productsController;
-
+use App\Http\Controllers\ordersController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -142,6 +142,16 @@ Route::controller(productsController::class)->group(function () {
 
     Route::get('/deactive_product', 'deactive')->name('products.deactive')->middleware('auth');
     Route::get('/active_product', 'active')->name('products.active')->middleware('auth');
+
+
+    
+});
+
+
+Route::controller(ordersController::class)->group(function () {
+    Route::get('/order_list', 'index')->name('orders.index')->middleware('auth');
+    Route::get('/order_status', 'show')->name('orders.show')->middleware('auth');
+    Route::post('/order_pack', 'update')->name('orders.update')->middleware('auth');
 
 
     

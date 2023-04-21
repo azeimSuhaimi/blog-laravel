@@ -18,27 +18,28 @@
                         $total = 0;
                         ?>
 
-                    @if (session()->has('cart'))
+                    @if (Cart::content())
                     
-                        @foreach (session('cart') as $data )
+                        @foreach (Cart::content() as $data)
                                 <div class="col-lg-6">
                                     <div class="card mt-2" >
                                         <img src="assets/images_product/empty.jpg" class="card-img-top" alt="...">
                                         <div class="card-body">
                                             <?php 
-                                                $total += $data['price'] * $data['quantity'];
+                                                $total += $data->price * $data->qty;
                                             ?>
-                                            <h5 class="card-title">{{$data['name']}}</h5>
-                                            <p class="card-text">price rm {{$data['price']}}</p>
-                                            <p class="card-text">quantity {{$data['quantity']}}</p>
-                                            <p class="card-text">sub total {{$data['price'] * $data['quantity']}}</p>
+                                            <h5 class="card-title">{{$data->name}}</h5>
+                                            <p class="card-text">price rm {{$data->price}}</p>
+                                            <p class="card-text">quantity {{$data->qty}}</p>
+                                            <p class="card-text">sub total {{$data->total}}</p>
                                             <form action="{{route('cart_product.add')}}" method="get">
                                                 @csrf
-                                                <input type="hidden"  name="id" value="{{$data['id']}}">
-                                                <input type="number" class="form-control" name="quantity" value="{{$data['quantity']}}"> 
+                                                <input type="hidden"  name="id" value="{{$data->id}}">
+                                                <input type="hidden"  name="rowid" value="{{$data->rowId}}">
+                                                <input type="number" class="form-control" name="quantity" value="{{$data->qty}}"> 
                                                 <button type="submit" class="btn btn-primary">add</button>
                                             </form>
-                                            <a href="{{route('cart_product.remove')}}?id={{$data['id']}}" class="btn btn-primary mt-2">remove</a>
+                                            <a href="{{route('cart_product.remove')}}?id={{$data->rowId}}" class="btn btn-primary mt-2">remove</a>
                                         </div>
                                     </div>
 

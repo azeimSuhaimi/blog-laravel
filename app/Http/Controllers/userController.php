@@ -118,7 +118,7 @@ class userController extends Controller
         $validated = $request->validate([
             'name' => 'required',
             'email' => [
-                'required',Rule::unique('user')->ignore(auth()->user()->email,'email')],
+                'required',Rule::unique('user')->ignore( auth()->user()->email,'email')],
             'phone' => 'required|numeric',
         ]);
 
